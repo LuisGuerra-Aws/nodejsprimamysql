@@ -1,0 +1,55 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model personas {
+  id_persona       Int    @id @default(autoincrement())
+  person_email     String @db.VarChar(150)
+  person_last_name String @db.VarChar(40)
+  person_mobile    BigInt
+  person_name      String @db.VarChar(30)
+  id_rol           Int?   @unique(map: "UK5cvkd6p24f91a9v3gupsv2t6y")
+  rol_id_rol       Int?   @unique(map: "UK5ki5wdy8wdicda2ru794nl1ky")
+}
+
+model roles {
+  id_rol          Int    @id @default(autoincrement())
+  rol_name        String @db.VarChar(30)
+  rol_description String @db.VarChar(200)
+}
+
+model tutorials {
+  id          BigInt   @id
+  description String?  @db.VarChar(255)
+  published   Boolean? @db.Bit(1)
+  title       String?  @db.VarChar(255)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model tutorials_seq {
+  next_val BigInt?
+
+  @@ignore
+}
+
+model users {
+  id         Int       @id
+  created_at DateTime? @db.DateTime(6)
+  email      String    @unique(map: "UK6dotkott2kjsp8vw4d0m25fb7") @db.VarChar(100)
+  full_name  String    @db.VarChar(255)
+  password   String    @db.VarChar(255)
+  updated_at DateTime? @db.DateTime(6)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model users_seq {
+  next_val BigInt?
+
+  @@ignore
+}
